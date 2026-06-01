@@ -1,0 +1,39 @@
+[project]
+name = "sensor-layer-for-agent-harnesses-101"
+version = "0.1.0"
+description = "A lightweight Python project for exploring sensor layers around agent harnesses."
+authors = [
+    { name = "Renato Pinheiro" }
+]
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "pydantic-settings>=2.7.0,<3.0.0"
+]
+
+[tool.poetry]
+packages = [
+    { include = "sensor_layer_for_agent_harnesses_101", from = "src" }
+]
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.13.0"
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
+ruff = "^0.8.4"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=sensor_layer_for_agent_harnesses_101 --cov-report=term-missing"
+testpaths = ["tests"]
