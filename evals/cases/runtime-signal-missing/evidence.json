@@ -2,9 +2,30 @@
   "schema_version": "evidence-bundle.v1",
   "repo_path": "evals/cases/runtime-signal-missing",
   "collected_at": "2026-06-01T00:00:00Z",
-  "task": "Verify export flow works end to end.",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F12",
+    "title": "Verify export flow works end to end",
+    "status": "done",
+    "acceptance_criteria": ["Export flow reaches service layer"],
+    "verification": [],
+    "completion_claim": "Export flow works."
+  },
   "git": {
     "changed_files": ["src/renderer/export_button.ts", "src/preload.ts"]
+  },
+  "diff_summary": {
+    "changed_files": ["src/renderer/export_button.ts", "src/preload.ts"],
+    "changed_tests": [],
+    "changed_production_code": ["src/renderer/export_button.ts", "src/preload.ts"],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "runtime_logs": "present",
+    "command_output": "not_configured",
+    "expected_runtime_behavior": "present",
+    "e2e_transcript": "missing"
   },
   "test_results": {
     "commands_were_run": false

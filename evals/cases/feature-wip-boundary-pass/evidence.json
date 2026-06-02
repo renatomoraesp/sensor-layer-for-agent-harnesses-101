@@ -1,0 +1,38 @@
+{
+  "schema_version": "evidence-bundle.v1",
+  "repo_path": "evals/cases/feature-wip-boundary-pass",
+  "collected_at": "2026-06-01T00:00:00Z",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F03",
+    "title": "Password reset",
+    "status": "in_progress",
+    "acceptance_criteria": ["Reset token can be requested"],
+    "verification": []
+  },
+  "git": {
+    "changed_files": ["src/auth/reset_password.py", "tests/test_reset_password.py"],
+    "diff": "Only auth reset files changed."
+  },
+  "diff_summary": {
+    "changed_files": ["src/auth/reset_password.py", "tests/test_reset_password.py"],
+    "changed_tests": ["tests/test_reset_password.py"],
+    "changed_production_code": ["src/auth/reset_password.py"],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "active_feature": "present",
+    "feature_list": "present",
+    "sprint_contract": "present",
+    "diff": "present",
+    "changed_files": "present"
+  },
+  "test_results": {},
+  "docs": {},
+  "feature_state": {
+    "sprint_contract": "Allowed scope: src/auth, tests/test_reset_password.py"
+  },
+  "runtime": {},
+  "workspace": {"dirty": true}
+}

@@ -21,6 +21,12 @@ def test_prompt_only_runner_writes_prompt_and_warn_result(tmp_path: Path) -> Non
     assert "Completion Calibration Sensor" in prompt_path.read_text(encoding="utf-8")
 
 
+def test_run_all_defaults_to_core_sensors_only() -> None:
+    runner = SensorRunner(sensor_dir=ROOT / "sensors")
+
+    assert "instruction-ecology" not in runner.enabled_sensor_ids()
+
+
 def test_render_prompt_includes_schema_and_evidence(tmp_path: Path) -> None:
     repo = tmp_path / "repo"
     shutil.copytree(ROOT / "tests" / "fixtures" / "sample_repo", repo)

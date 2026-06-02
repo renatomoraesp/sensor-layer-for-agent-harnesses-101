@@ -1,0 +1,10 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "clean-handoff",
+  "status": "PASS",
+  "confidence": 0.86,
+  "summary": "The handoff records current state, failing command, suspected cause, and next action.",
+  "findings": [],
+  "missing_evidence": [],
+  "next_actions": []
+}

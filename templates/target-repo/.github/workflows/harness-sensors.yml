@@ -13,7 +13,15 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install harness sensors
-        run: pip install harness-sensors
+        run: |
+          # Option A, after package publication:
+          # pip install harness-sensors
+          #
+          # Option B, install from the source repository:
+          pip install git+https://github.com/renatomoraesp/sensor-layer-for-agent-harnesses-101.git
+          #
+          # Option C, if vendored into this target repo:
+          # pip install -e tools/harness-sensors
       - name: Render completion sensor
         run: |
           python -m harness_sensors render --repo . --sensor completion-calibration

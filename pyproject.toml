@@ -18,6 +18,8 @@ packages = [
 include = [
     { path = "src/harness_sensors/schemas/*.json", format = ["sdist", "wheel"] },
     { path = "sensors/*.md", format = ["sdist", "wheel"] },
+    { path = "evals/**/*.json", format = ["sdist", "wheel"] },
+    { path = "evals/**/*.md", format = ["sdist", "wheel"] },
     { path = "templates/target-repo/**/*", format = ["sdist", "wheel"] },
     { path = "templates/continue/checks/*.md", format = ["sdist", "wheel"] }
 ]

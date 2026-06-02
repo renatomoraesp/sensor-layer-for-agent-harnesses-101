@@ -42,6 +42,7 @@ poetry run python -m harness_sensors doctor --repo examples/python-api-small
 poetry run python -m harness_sensors collect --repo examples/python-api-small
 poetry run python -m harness_sensors render --repo examples/python-api-small --sensor test-adequacy
 poetry run python -m harness_sensors run --repo examples/python-api-small --sensor completion-calibration
+poetry run python -m harness_sensors eval --all
 ```
 
 Install the minimal harness state surface into another repository:
@@ -53,6 +54,12 @@ python -m harness_sensors install --repo /path/to/target --profile minimal
 Prompt-only mode is the safe default. It writes prompts under
 `.harness/prompts/` and returns a `WARN` result that explicitly says no model
 judgment was invoked.
+
+Use strict doctor output for CI or agent-readable setup checks:
+
+```bash
+python -m harness_sensors doctor --repo . --strict --json
+```
 
 ## Minimal Example
 
@@ -77,5 +84,6 @@ adapter when you want automated execution.
 - `evals/`: seeded failure cases for sensor quality checks.
 
 Start with [docs/00-start-here.md](docs/00-start-here.md), then use
-[docs/adaptation/clone-and-port.md](docs/adaptation/clone-and-port.md) when
-copying the harness into another codebase.
+[docs/adaptation/clone-and-port.md](docs/adaptation/clone-and-port.md) and
+[docs/adaptation/configuring-evidence.md](docs/adaptation/configuring-evidence.md)
+when copying the harness into another codebase.

@@ -8,8 +8,13 @@ target:
     - pytest
   build_commands: []
   lint_commands: []
+  runtime_commands: []
+  health_check_commands: []
+  e2e_commands: []
   log_paths:
     - .harness/logs
+  architecture_doc_paths:
+    - docs/architecture.md
   report_dir: .harness/reports
   prompt_dir: .harness/prompts
   evidence_dir: .harness/evidence

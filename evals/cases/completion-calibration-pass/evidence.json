@@ -1,0 +1,43 @@
+{
+  "schema_version": "evidence-bundle.v1",
+  "repo_path": "evals/cases/completion-calibration-pass",
+  "collected_at": "2026-06-01T00:00:00Z",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F03",
+    "title": "Password reset",
+    "status": "done",
+    "acceptance_criteria": ["E2E reset flow works", "Email template loads"],
+    "verification": [{"command": "pytest && e2e reset flow", "status": "passed"}],
+    "completion_claim": "Password reset is complete."
+  },
+  "git": {
+    "changed_files": ["src/auth/reset_password.py", "tests/test_reset_password.py"],
+    "diff": "Implements and tests full password reset flow."
+  },
+  "diff_summary": {
+    "changed_files": ["src/auth/reset_password.py", "tests/test_reset_password.py"],
+    "changed_tests": ["tests/test_reset_password.py"],
+    "changed_production_code": ["src/auth/reset_password.py"],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "task": "present",
+    "diff": "present",
+    "feature_state": "present",
+    "test_results": "present",
+    "runtime_logs": "present"
+  },
+  "test_results": {
+    "test_commands": [{"command": "pytest", "status": "passed", "exit_code": 0}],
+    "commands_were_run": true
+  },
+  "docs": {},
+  "feature_state": {},
+  "runtime": {
+    "available": true,
+    "logs": [{"path": ".harness/logs/reset.txt", "exists": true, "text": "reset flow completed"}]
+  },
+  "workspace": {"dirty": false}
+}

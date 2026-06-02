@@ -2,10 +2,30 @@
   "schema_version": "evidence-bundle.v1",
   "repo_path": "evals/cases/architecture-drift",
   "collected_at": "2026-06-01T00:00:00Z",
-  "task": "Create order from API and worker paths.",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F10",
+    "title": "Create order from API and worker paths",
+    "status": "in_progress",
+    "acceptance_criteria": ["API and worker paths can create orders through domain service"],
+    "verification": []
+  },
   "git": {
     "changed_files": ["src/domain/orders/create_order.py"],
     "diff": "src/domain/orders/create_order.py imports fastapi.Request and reads headers directly."
+  },
+  "diff_summary": {
+    "changed_files": ["src/domain/orders/create_order.py"],
+    "changed_tests": [],
+    "changed_production_code": ["src/domain/orders/create_order.py"],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "diff": "present",
+    "changed_files": "present",
+    "architecture_docs": "present",
+    "neighboring_patterns": "present"
   },
   "test_results": {
     "commands_were_run": false

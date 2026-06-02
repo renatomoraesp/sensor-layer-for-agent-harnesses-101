@@ -2,10 +2,35 @@
   "schema_version": "evidence-bundle.v1",
   "repo_path": "evals/cases/weak-tests",
   "collected_at": "2026-06-01T00:00:00Z",
-  "task": "Complete checkout from cart to payment session and persisted order.",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F08",
+    "title": "Complete checkout from cart to payment session and persisted order",
+    "status": "in_progress",
+    "acceptance_criteria": [
+      "cart-to-payment transition",
+      "payment-session creation",
+      "persisted order"
+    ],
+    "verification": []
+  },
   "git": {
     "changed_files": ["src/checkout/view.tsx", "tests/test_checkout.py"],
     "diff": "Production code submits checkout; tests only render the checkout view."
+  },
+  "diff_summary": {
+    "changed_files": ["src/checkout/view.tsx", "tests/test_checkout.py"],
+    "changed_tests": ["tests/test_checkout.py"],
+    "changed_production_code": ["src/checkout/view.tsx"],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "task": "present",
+    "changed_tests": "present",
+    "changed_production_code": "present",
+    "test_results": "present",
+    "runtime_transcript": "missing"
   },
   "test_results": {
     "test_commands": [

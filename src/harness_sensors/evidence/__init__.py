@@ -5,6 +5,11 @@ from __future__ import annotations
 from pathlib import Path
 
 from harness_sensors.config import RuntimeConfig
+from harness_sensors.evidence.derivations import (
+    derive_diff_summary,
+    derive_evidence_availability,
+    derive_task_evidence,
+)
 from harness_sensors.evidence.docs import collect_docs_evidence
 from harness_sensors.evidence.feature_state import collect_feature_state
 from harness_sensors.evidence.git import collect_git_evidence
@@ -27,10 +32,26 @@ def collect_evidence(
     status_short = git_evidence.get("status_short", [])
     if not isinstance(status_short, list):
         status_short = []
+    feature_state = collect_feature_state(repo, harness_dir=config.target.harness_dir)
+    docs = collect_docs_evidence(
+        repo,
+        docs_paths=[*config.target.docs_paths, *config.target.architecture_doc_paths],
+        changed_files=[str(path) for path in changed_files],
+    )
+    runtime = collect_runtime_evidence(
+        repo,
+        log_paths=config.target.log_paths,
+        runtime_commands=config.target.runtime_commands,
+        health_check_commands=config.target.health_check_commands,
+        e2e_commands=config.target.e2e_commands,
+        run_commands=run_checks,
+    )
 
-    return EvidenceBundle(
+    bundle = EvidenceBundle(
         repo_path=str(repo),
+        task=derive_task_evidence(feature_state),
         git=git_evidence,
+        diff_summary=derive_diff_summary(git_evidence),
         test_results=collect_test_evidence(
             repo,
             test_commands=config.target.test_commands,
@@ -38,14 +59,12 @@ def collect_evidence(
             lint_commands=config.target.lint_commands,
             run_commands=run_checks,
         ),
-        docs=collect_docs_evidence(
-            repo,
-            docs_paths=config.target.docs_paths,
-            changed_files=[str(path) for path in changed_files],
-        ),
-        feature_state=collect_feature_state(repo, harness_dir=config.target.harness_dir),
-        runtime=collect_runtime_evidence(repo, log_paths=config.target.log_paths),
+        docs=docs,
+        feature_state=feature_state,
+        runtime=runtime,
         workspace=collect_workspace_evidence(
             repo, status_short=[str(line) for line in status_short]
         ),
     )
+    bundle.evidence_availability = derive_evidence_availability(bundle)
+    return bundle

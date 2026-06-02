@@ -1,0 +1,17 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "test-adequacy",
+  "status": "WARN",
+  "confidence": 0.76,
+  "summary": "Behavior-level tests cover the main path, but an important invalid-cart path is missing.",
+  "findings": [
+    {
+      "severity": "warning",
+      "claim": "Invalid-cart rejection is acceptance criteria but lacks direct coverage.",
+      "evidence": [{"path": "tests/test_checkout_behavior.py", "lines": null, "detail": "Only valid checkout is exercised."}],
+      "repair": "Add a behavior-level test for invalid cart rejection."
+    }
+  ],
+  "missing_evidence": ["No invalid-cart rejection test."],
+  "next_actions": ["Add the missing failure-path test before treating test evidence as strong."]
+}

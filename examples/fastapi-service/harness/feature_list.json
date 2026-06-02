@@ -10,7 +10,8 @@
       "acceptance_criteria": [
         "Route delegates to service layer",
         "Service returns summary for existing order",
-        "Runtime transcript proves endpoint invocation"
+        "Runtime transcript proves endpoint invocation",
+        "Domain layer stays independent from transport request objects"
       ],
       "verification": [],
       "completion_claim": null

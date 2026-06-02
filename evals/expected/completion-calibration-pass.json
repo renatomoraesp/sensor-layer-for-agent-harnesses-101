@@ -1,0 +1,10 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "completion-calibration",
+  "status": "PASS",
+  "confidence": 0.88,
+  "summary": "Completion is justified by acceptance criteria, tests, and runtime evidence.",
+  "findings": [],
+  "missing_evidence": [],
+  "next_actions": []
+}

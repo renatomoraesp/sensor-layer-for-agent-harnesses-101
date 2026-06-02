@@ -1,0 +1,35 @@
+{
+  "schema_version": "evidence-bundle.v1",
+  "repo_path": "evals/cases/architecture-drift-pass",
+  "collected_at": "2026-06-01T00:00:00Z",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F10",
+    "title": "Create order endpoint",
+    "status": "in_progress"
+  },
+  "git": {
+    "changed_files": ["src/api/orders.py", "src/domain/orders/create_order.py"],
+    "diff": "Route builds CreateOrderCommand; domain service has no transport imports."
+  },
+  "diff_summary": {
+    "changed_files": ["src/api/orders.py", "src/domain/orders/create_order.py"],
+    "changed_tests": [],
+    "changed_production_code": ["src/api/orders.py", "src/domain/orders/create_order.py"],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "diff": "present",
+    "changed_files": "present",
+    "architecture_docs": "present",
+    "neighboring_patterns": "present"
+  },
+  "test_results": {},
+  "docs": {
+    "documents": [{"path": "docs/architecture.md", "exists": true, "text": "Domain services receive command objects."}]
+  },
+  "feature_state": {},
+  "runtime": {},
+  "workspace": {"dirty": true}
+}

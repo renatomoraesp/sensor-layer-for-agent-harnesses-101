@@ -1,0 +1,15 @@
+{
+  "id": "resp_123",
+  "object": "response",
+  "output": [
+    {
+      "type": "message",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "{\"sensor_id\":\"test-adequacy\",\"status\":\"PASS\",\"confidence\":0.8,\"summary\":\"ok\",\"findings\":[],\"missing_evidence\":[],\"next_actions\":[]}"
+        }
+      ]
+    }
+  ]
+}

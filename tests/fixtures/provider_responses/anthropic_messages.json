@@ -1,0 +1,11 @@
+{
+  "id": "msg_123",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"sensor_id\":\"test-adequacy\",\"status\":\"PASS\",\"confidence\":0.8,\"summary\":\"ok\",\"findings\":[],\"missing_evidence\":[],\"next_actions\":[]}"
+    }
+  ]
+}

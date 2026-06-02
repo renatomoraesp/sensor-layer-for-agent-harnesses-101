@@ -175,17 +175,71 @@ class CommandEvidence(BaseModel):
     duration_seconds: float | None = None
 
 
+class TaskEvidence(BaseModel):
+    """Normalized active-task evidence derived from target harness state."""
+
+    source: str | None = None
+    active_feature_id: str | None = None
+    title: str | None = None
+    status: str | None = None
+    acceptance_criteria: list[str] = Field(default_factory=list)
+    verification: list[Any] = Field(default_factory=list)
+    completion_claim: str | None = None
+    notes: str | None = None
+    sprint_contract: str | None = None
+
+
+class DiffSummary(BaseModel):
+    """Changed-file classification derived from Git evidence."""
+
+    changed_files: list[str] = Field(default_factory=list)
+    changed_tests: list[str] = Field(default_factory=list)
+    changed_production_code: list[str] = Field(default_factory=list)
+    changed_docs: list[str] = Field(default_factory=list)
+    changed_harness_state: list[str] = Field(default_factory=list)
+
+
+EvidenceAvailability = Literal[
+    "present",
+    "missing",
+    "partial",
+    "present_not_run",
+    "configured_missing",
+    "not_configured",
+]
+
+
+class SensorEvidenceSummary(BaseModel):
+    """Sensor-specific evidence availability summary for rendered prompts."""
+
+    sensor_id: str
+    required: dict[str, EvidenceAvailability] = Field(default_factory=dict)
+    optional: dict[str, EvidenceAvailability] = Field(default_factory=dict)
+    notes: list[str] = Field(default_factory=list)
+
+
 class EvidenceBundle(BaseModel):
     """Serializable evidence object passed to sensor prompts."""
 
     schema_version: Literal["evidence-bundle.v1"] = "evidence-bundle.v1"
     repo_path: str
     collected_at: datetime = Field(default_factory=utc_now)
-    task: str | None = None
+    task: TaskEvidence | None = None
     git: dict[str, Any] = Field(default_factory=dict)
+    diff_summary: DiffSummary = Field(default_factory=DiffSummary)
+    evidence_availability: dict[str, EvidenceAvailability] = Field(default_factory=dict)
     test_results: dict[str, Any] = Field(default_factory=dict)
     docs: dict[str, Any] = Field(default_factory=dict)
     feature_state: dict[str, Any] = Field(default_factory=dict)
     runtime: dict[str, Any] = Field(default_factory=dict)
     workspace: dict[str, Any] = Field(default_factory=dict)
     metadata: dict[str, Any] = Field(default_factory=dict)
+
+    @field_validator("task", mode="before")
+    @classmethod
+    def coerce_task(cls, value: Any) -> Any:
+        """Accept older simple evidence bundles that represented task as text."""
+
+        if isinstance(value, str):
+            return {"source": "inline", "title": value}
+        return value

@@ -7,7 +7,10 @@
     "schema_version",
     "repo_path",
     "collected_at",
+    "task",
     "git",
+    "diff_summary",
+    "evidence_availability",
     "test_results",
     "docs",
     "feature_state",
@@ -26,10 +29,87 @@
       "format": "date-time"
     },
     "task": {
-      "type": ["string", "null"]
+      "type": ["object", "null"],
+      "properties": {
+        "source": {
+          "type": ["string", "null"]
+        },
+        "active_feature_id": {
+          "type": ["string", "null"]
+        },
+        "title": {
+          "type": ["string", "null"]
+        },
+        "status": {
+          "type": ["string", "null"]
+        },
+        "acceptance_criteria": {
+          "type": "array"
+        },
+        "verification": {
+          "type": "array"
+        },
+        "completion_claim": {
+          "type": ["string", "null"]
+        },
+        "notes": {
+          "type": ["string", "null"]
+        },
+        "sprint_contract": {
+          "type": ["string", "null"]
+        }
+      }
     },
     "git": {
       "type": "object"
+    },
+    "diff_summary": {
+      "type": "object",
+      "properties": {
+        "changed_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "changed_tests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "changed_production_code": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "changed_docs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "changed_harness_state": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "evidence_availability": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "present",
+          "missing",
+          "partial",
+          "present_not_run",
+          "configured_missing",
+          "not_configured"
+        ]
+      }
     },
     "test_results": {
       "type": "object"

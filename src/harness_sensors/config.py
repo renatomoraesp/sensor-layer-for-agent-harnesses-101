@@ -36,7 +36,11 @@ class TargetRepoConfig(BaseModel):
     test_commands: list[str] = Field(default_factory=list)
     build_commands: list[str] = Field(default_factory=list)
     lint_commands: list[str] = Field(default_factory=list)
+    runtime_commands: list[str] = Field(default_factory=list)
+    health_check_commands: list[str] = Field(default_factory=list)
+    e2e_commands: list[str] = Field(default_factory=list)
     log_paths: list[str] = Field(default_factory=list)
+    architecture_doc_paths: list[str] = Field(default_factory=lambda: ["docs/architecture.md"])
     report_dir: str = ".harness/reports"
     prompt_dir: str = ".harness/prompts"
     evidence_dir: str = ".harness/evidence"

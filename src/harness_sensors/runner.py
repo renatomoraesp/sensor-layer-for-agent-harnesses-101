@@ -89,14 +89,21 @@ class SensorRunner:
         return bundle, results
 
     def enabled_sensor_ids(self) -> list[str]:
-        """Return configured enabled sensors, or all discovered sensors by default."""
+        """Return enabled sensors.
+
+        Core sensors run by default. Maturity and experimental sensors require
+        explicit enabling in config.
+        """
 
         if not self.config.sensors:
-            return list(self.cards)
+            return [card.id for card in self.cards.values() if card.metadata.maturity == "core"]
         enabled: list[str] = []
         for sensor_id, card in self.cards.items():
             toggle = self.config.sensors.get(sensor_id)
-            if toggle is None or toggle.enabled:
+            if toggle is None:
+                if card.metadata.maturity == "core":
+                    enabled.append(card.id)
+            elif toggle.enabled:
                 enabled.append(card.id)
         return enabled
 

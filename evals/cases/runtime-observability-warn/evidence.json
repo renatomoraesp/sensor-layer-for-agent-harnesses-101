@@ -1,0 +1,36 @@
+{
+  "schema_version": "evidence-bundle.v1",
+  "repo_path": "evals/cases/runtime-observability-warn",
+  "collected_at": "2026-06-01T00:00:00Z",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F12",
+    "title": "Export report",
+    "completion_claim": "Export flow works."
+  },
+  "git": {
+    "changed_files": ["src/export/service.py"]
+  },
+  "diff_summary": {
+    "changed_files": ["src/export/service.py"],
+    "changed_tests": [],
+    "changed_production_code": ["src/export/service.py"],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "runtime_logs": "present",
+    "command_output": "present_not_run",
+    "expected_runtime_behavior": "present",
+    "e2e_transcript": "missing"
+  },
+  "test_results": {},
+  "docs": {},
+  "feature_state": {},
+  "runtime": {
+    "available": true,
+    "logs": [{"path": ".harness/logs/export.log", "exists": true, "text": "service: export completed"}],
+    "runtime_commands": [{"command": "curl /export", "status": "not_run"}]
+  },
+  "workspace": {"dirty": true}
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "evidence-bundle.v1",
+  "repo_path": "evals/cases/clean-handoff-pass",
+  "collected_at": "2026-06-01T00:00:00Z",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F06",
+    "title": "Cart checkout",
+    "status": "in_progress"
+  },
+  "git": {
+    "status_short": [" M src/cart.py"],
+    "changed_files": ["src/cart.py"]
+  },
+  "diff_summary": {
+    "changed_files": ["src/cart.py"],
+    "changed_tests": [],
+    "changed_production_code": ["src/cart.py"],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "progress": "present",
+    "decisions": "present",
+    "feature_list": "present",
+    "git_status": "present",
+    "test_results": "present",
+    "workspace_state": "present"
+  },
+  "test_results": {
+    "test_commands": [{"command": "pytest tests/test_cart.py", "status": "failed", "exit_code": 1}],
+    "commands_were_run": true
+  },
+  "docs": {},
+  "feature_state": {
+    "files": {
+      "progress.md": {"exists": true, "text": "Failing command: pytest tests/test_cart.py. Cause: missing empty-cart case. Next: add empty-cart guard."},
+      "decisions.md": {"exists": true, "text": "Keep checkout validation in service layer."},
+      "feature_list.json": {"exists": true, "json": {"active_feature": "F06"}}
+    }
+  },
+  "runtime": {},
+  "workspace": {
+    "dirty": true,
+    "todo_markers": [],
+    "temporary_files": []
+  }
+}

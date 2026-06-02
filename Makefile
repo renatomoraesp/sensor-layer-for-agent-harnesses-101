@@ -1,4 +1,4 @@
-.PHONY: install format lint test typecheck check doctor render-example run-example
+.PHONY: install format lint test typecheck check doctor render-example run-example evals
 
 install:
 	poetry install
@@ -25,3 +25,6 @@ render-example:
 
 run-example:
 	poetry run python -m harness_sensors run --repo examples/python-api-small --sensor completion-calibration
+
+evals:
+	poetry run python -m harness_sensors eval --all

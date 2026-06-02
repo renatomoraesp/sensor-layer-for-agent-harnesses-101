@@ -1,0 +1,37 @@
+{
+  "schema_version": "evidence-bundle.v1",
+  "repo_path": "evals/cases/test-adequacy-warn",
+  "collected_at": "2026-06-01T00:00:00Z",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F08",
+    "title": "Checkout validation",
+    "status": "in_progress",
+    "acceptance_criteria": ["valid checkout creates payment session", "invalid cart is rejected"]
+  },
+  "git": {
+    "changed_files": ["src/checkout/service.py", "tests/test_checkout_behavior.py"],
+    "diff": "Behavior-level checkout test covers valid checkout only."
+  },
+  "diff_summary": {
+    "changed_files": ["src/checkout/service.py", "tests/test_checkout_behavior.py"],
+    "changed_tests": ["tests/test_checkout_behavior.py"],
+    "changed_production_code": ["src/checkout/service.py"],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "task": "present",
+    "changed_tests": "present",
+    "changed_production_code": "present",
+    "test_results": "present"
+  },
+  "test_results": {
+    "test_commands": [{"command": "pytest tests/test_checkout_behavior.py", "status": "passed", "exit_code": 0}],
+    "commands_were_run": true
+  },
+  "docs": {},
+  "feature_state": {},
+  "runtime": {},
+  "workspace": {"dirty": true}
+}

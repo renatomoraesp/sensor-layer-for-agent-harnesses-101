@@ -1,0 +1,10 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "architecture-drift",
+  "status": "PASS",
+  "confidence": 0.84,
+  "summary": "The change preserves the documented route/domain boundary.",
+  "findings": [],
+  "missing_evidence": [],
+  "next_actions": []
+}

@@ -10,6 +10,9 @@ dist/
 coverage.xml
 htmlcov/
 .harness/
+!examples/fastapi-service/.harness/
+!examples/fastapi-service/.harness/logs/
+!examples/fastapi-service/.harness/logs/**
 
 # Virtual environments
 .venv/

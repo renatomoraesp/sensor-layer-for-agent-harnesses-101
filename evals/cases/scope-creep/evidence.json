@@ -2,7 +2,14 @@
   "schema_version": "evidence-bundle.v1",
   "repo_path": "evals/cases/scope-creep",
   "collected_at": "2026-06-01T00:00:00Z",
-  "task": "Finish password reset feature F03.",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F03",
+    "title": "Finish password reset feature",
+    "status": "in_progress",
+    "acceptance_criteria": ["Password reset feature remains within auth scope"],
+    "verification": []
+  },
   "git": {
     "changed_files": [
       "src/auth/reset_password.py",
@@ -11,6 +18,29 @@
       "src/checkout/router.py"
     ],
     "diff": "Password reset changes plus unrelated checkout model scaffolding."
+  },
+  "diff_summary": {
+    "changed_files": [
+      "src/auth/reset_password.py",
+      "tests/test_reset_password.py",
+      "src/checkout/models.py",
+      "src/checkout/router.py"
+    ],
+    "changed_tests": ["tests/test_reset_password.py"],
+    "changed_production_code": [
+      "src/auth/reset_password.py",
+      "src/checkout/models.py",
+      "src/checkout/router.py"
+    ],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "active_feature": "present",
+    "feature_list": "present",
+    "sprint_contract": "present",
+    "diff": "present",
+    "changed_files": "present"
   },
   "test_results": {
     "commands_were_run": false

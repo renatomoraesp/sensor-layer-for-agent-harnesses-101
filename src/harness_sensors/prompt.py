@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
+from harness_sensors.evidence.derivations import summarize_evidence_for_sensor
 from harness_sensors.models import EvidenceBundle, SensorCard
 
 
@@ -18,6 +19,11 @@ def render_sensor_prompt(
 
     evidence_json = json.dumps(bundle.model_dump(mode="json"), indent=2, sort_keys=True)
     schema_json = json.dumps(result_schema, indent=2, sort_keys=True)
+    summary_json = json.dumps(
+        summarize_evidence_for_sensor(card, bundle).model_dump(mode="json"),
+        indent=2,
+        sort_keys=True,
+    )
     required = ", ".join(card.metadata.evidence.required) or "none"
     optional = ", ".join(card.metadata.evidence.optional) or "none"
 
@@ -35,6 +41,12 @@ the sensor cannot run.
 
 Return exactly one JSON object that validates against sensor-result.v1. Do not
 wrap it in markdown.
+
+## Evidence Availability Summary
+
+```json
+{summary_json}
+```
 
 ## Sensor Card
 

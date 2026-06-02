@@ -1,0 +1,17 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "runtime-observability",
+  "status": "WARN",
+  "confidence": 0.74,
+  "summary": "Runtime logs support the service invocation, but E2E evidence is still partial.",
+  "findings": [
+    {
+      "severity": "warning",
+      "claim": "The service completed export, but no full E2E transcript or screenshot is attached.",
+      "evidence": [{"path": ".harness/logs/export.log", "lines": null, "detail": "Service reports export completed."}],
+      "repair": "Attach a full E2E transcript or screenshot when completion depends on UI behavior."
+    }
+  ],
+  "missing_evidence": ["No full E2E export transcript."],
+  "next_actions": ["Capture the complete export flow transcript before a final completion claim."]
+}

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from harness_sensors.providers.openai import _post_json
+from harness_sensors.providers.openai import _post_json, extract_openai_chat_completions_text
 
 
 class LocalOpenAICompatibleProvider:
@@ -35,4 +35,10 @@ class LocalOpenAICompatibleProvider:
                 "type": "json_schema",
                 "json_schema": {"name": "sensor_result", "schema": schema},
             }
-        return _post_json(self.endpoint, payload, self.api_key, self.timeout_seconds)
+        return _post_json(
+            self.endpoint,
+            payload,
+            self.api_key,
+            self.timeout_seconds,
+            extractor=extract_openai_chat_completions_text,
+        )

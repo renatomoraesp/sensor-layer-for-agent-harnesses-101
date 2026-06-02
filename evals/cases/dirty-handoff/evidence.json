@@ -2,10 +2,32 @@
   "schema_version": "evidence-bundle.v1",
   "repo_path": "evals/cases/dirty-handoff",
   "collected_at": "2026-06-01T00:00:00Z",
-  "task": "Pause work on cart checkout.",
+  "task": {
+    "source": "harness/feature_list.json",
+    "active_feature_id": "F06",
+    "title": "Pause work on cart checkout",
+    "status": "in_progress",
+    "acceptance_criteria": ["Cart checkout state is resumable"],
+    "verification": []
+  },
   "git": {
     "status_short": [" M src/cart.py", "?? scratch-output.txt"],
     "changed_files": ["src/cart.py", "scratch-output.txt"]
+  },
+  "diff_summary": {
+    "changed_files": ["src/cart.py", "scratch-output.txt"],
+    "changed_tests": [],
+    "changed_production_code": ["src/cart.py", "scratch-output.txt"],
+    "changed_docs": [],
+    "changed_harness_state": []
+  },
+  "evidence_availability": {
+    "progress": "present",
+    "decisions": "missing",
+    "feature_list": "present",
+    "git_status": "present",
+    "test_results": "present",
+    "workspace_state": "present"
   },
   "test_results": {
     "test_commands": [

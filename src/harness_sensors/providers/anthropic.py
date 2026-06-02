@@ -55,15 +55,21 @@ class AnthropicProvider:
         except urllib.error.URLError as exc:
             raise RuntimeError(f"provider request failed: {exc}") from exc
         decoded = json.loads(raw)
-        content = decoded.get("content")
-        if isinstance(content, list):
-            chunks = [
-                str(item["text"])
-                for item in content
-                if isinstance(item, dict)
-                and item.get("type") == "text"
-                and isinstance(item.get("text"), str)
-            ]
-            if chunks:
-                return "\n".join(chunks)
-        return str(raw)
+        return extract_anthropic_messages_text(decoded)
+
+
+def extract_anthropic_messages_text(decoded: dict[str, Any]) -> str:
+    """Extract model text from an Anthropic Messages response."""
+
+    content = decoded.get("content")
+    if isinstance(content, list):
+        chunks = [
+            str(item["text"])
+            for item in content
+            if isinstance(item, dict)
+            and item.get("type") == "text"
+            and isinstance(item.get("text"), str)
+        ]
+        if chunks:
+            return "\n".join(chunks)
+    return json.dumps(decoded)

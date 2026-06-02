@@ -1,0 +1,3 @@
+GET /orders/ord_123/summary -> api.orders.get_order_summary_response
+domain.build_order_summary(order_id=ord_123, status=paid)
+response 200

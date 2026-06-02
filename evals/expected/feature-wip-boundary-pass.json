@@ -1,0 +1,10 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "feature-wip-boundary",
+  "status": "PASS",
+  "confidence": 0.85,
+  "summary": "The changed files stay within the active feature boundary.",
+  "findings": [],
+  "missing_evidence": [],
+  "next_actions": []
+}

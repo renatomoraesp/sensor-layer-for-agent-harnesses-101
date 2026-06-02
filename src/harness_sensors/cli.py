@@ -4,15 +4,19 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
+import shutil
 from collections.abc import Sequence
 from pathlib import Path
 
-from harness_sensors.config import load_runtime_config
+from harness_sensors.config import RuntimeConfig, load_runtime_config
+from harness_sensors.evals import discover_eval_cases, render_eval_report, run_eval_cases
 from harness_sensors.evidence import collect_evidence
 from harness_sensors.integrations.agent_md_install import install_target_template
 from harness_sensors.integrations.continue_export import export_continue_checks
 from harness_sensors.reporters import ReportFormat
 from harness_sensors.runner import SensorRunner
+from harness_sensors.schema_loader import load_schema
 from harness_sensors.sensor_card import SensorCardError, default_sensor_dir, discover_sensor_cards
 
 
@@ -42,6 +46,8 @@ def build_parser() -> argparse.ArgumentParser:
         "doctor", help="validate local sensor setup and target harness files"
     )
     _add_common_repo_args(doctor)
+    doctor.add_argument("--strict", action="store_true")
+    doctor.add_argument("--json", action="store_true", dest="json_output")
     doctor.set_defaults(func=_doctor)
 
     collect = subparsers.add_parser("collect", help="collect an evidence bundle")
@@ -82,6 +88,16 @@ def build_parser() -> argparse.ArgumentParser:
     export_continue.add_argument("--out", type=Path, default=None)
     export_continue.set_defaults(func=_export_continue)
 
+    eval_parser = subparsers.add_parser("eval", help="run offline structural eval cases")
+    eval_group = eval_parser.add_mutually_exclusive_group(required=True)
+    eval_group.add_argument("--case", dest="case_name")
+    eval_group.add_argument("--all", action="store_true")
+    eval_parser.add_argument("--evals-dir", type=Path, default=None)
+    eval_parser.add_argument("--sensors-dir", type=Path, default=None)
+    eval_parser.add_argument("--json", action="store_true", dest="json_output")
+    eval_parser.add_argument("--out", type=Path, default=None)
+    eval_parser.set_defaults(func=_eval)
+
     return parser
 
 
@@ -108,16 +124,89 @@ def _doctor(args: argparse.Namespace) -> int:
         repo / config.target.harness_dir / "quality_score.md",
     ]
     missing = [path for path in expected_harness_files if not path.exists()]
-    print(f"validated {len(cards)} sensor cards")
-    print(f"target repo: {repo}")
-    if missing:
-        print("missing target harness files:")
-        for path in missing:
-            print(f"- {path}")
+    issues = [f"missing target harness file: {path}" for path in missing]
+    issues.extend(_doctor_docs_issues(repo, config.target.docs_paths))
+    issues.extend(_doctor_command_issues(config.target.test_commands))
+    issues.extend(_doctor_command_issues(config.target.build_commands))
+    issues.extend(_doctor_command_issues(config.target.lint_commands))
+    issues.extend(_doctor_command_issues(config.target.runtime_commands))
+    issues.extend(_doctor_command_issues(config.target.health_check_commands))
+    issues.extend(_doctor_command_issues(config.target.e2e_commands))
+    issues.extend(_doctor_provider_issues(config))
+    issues.extend(_doctor_schema_issues())
+
+    report = {
+        "sensor_cards": len(cards),
+        "target_repo": str(repo),
+        "provider": config.provider.name,
+        "strict": bool(args.strict),
+        "issues": issues,
+        "ok": not issues,
+    }
+    if args.json_output:
+        print(json.dumps(report, indent=2, sort_keys=True))
     else:
-        print("target harness files present")
-    print(f"provider: {config.provider.name}")
-    return 0
+        print(f"validated {len(cards)} sensor cards")
+        print(f"target repo: {repo}")
+        if missing:
+            print("missing target harness files:")
+            for path in missing:
+                print(f"- {path}")
+        else:
+            print("target harness files present")
+        if issues:
+            print("doctor issues:")
+            for issue in issues:
+                print(f"- {issue}")
+        print(f"provider: {config.provider.name}")
+    return 1 if args.strict and issues else 0
+
+
+def _doctor_docs_issues(repo: Path, docs_paths: list[str]) -> list[str]:
+    issues: list[str] = []
+    for configured_path in docs_paths:
+        if not (repo / configured_path).exists():
+            issues.append(f"configured docs path does not exist: {configured_path}")
+    return issues
+
+
+def _doctor_command_issues(commands: list[str]) -> list[str]:
+    issues: list[str] = []
+    for command in commands:
+        parts = shlex.split(command)
+        if parts and shutil.which(parts[0]) is None:
+            issues.append(f"configured command is unavailable: {command}")
+    return issues
+
+
+def _doctor_provider_issues(config: RuntimeConfig) -> list[str]:
+    provider = config.provider
+    if provider.name == "openai" and provider.model is None:
+        return ["openai provider requires model"]
+    if provider.name == "anthropic" and provider.model is None:
+        return ["anthropic provider requires model"]
+    if provider.name == "local":
+        issues: list[str] = []
+        if provider.model is None:
+            issues.append("local provider requires model")
+        if provider.endpoint is None:
+            issues.append("local provider requires endpoint")
+        return issues
+    return []
+
+
+def _doctor_schema_issues() -> list[str]:
+    issues: list[str] = []
+    for schema_name in [
+        "sensor-card.schema.json",
+        "sensor-result.schema.json",
+        "evidence-bundle.schema.json",
+    ]:
+        try:
+            load_schema(schema_name)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            issues.append(f"schema could not be loaded: {schema_name}: {exc}")
+    return issues
 
 
 def _collect(args: argparse.Namespace) -> int:
@@ -172,3 +261,20 @@ def _export_continue(args: argparse.Namespace) -> int:
     for path in written:
         print(path)
     return 0
+
+
+def _eval(args: argparse.Namespace) -> int:
+    case_names = discover_eval_cases(args.evals_dir) if args.all else [args.case_name]
+    reports = run_eval_cases(
+        case_names=case_names,
+        evals_dir=args.evals_dir,
+        sensor_dir=args.sensors_dir or default_sensor_dir(),
+    )
+    output = render_eval_report(reports, as_json=bool(args.json_output))
+    if args.out is not None:
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(output, encoding="utf-8")
+        print(args.out)
+    else:
+        print(output, end="")
+    return 0 if all(report.ok for report in reports) else 1

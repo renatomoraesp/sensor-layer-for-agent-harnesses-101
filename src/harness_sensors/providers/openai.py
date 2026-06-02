@@ -6,6 +6,7 @@ import json
 import os
 import urllib.error
 import urllib.request
+from collections.abc import Callable
 from typing import Any
 
 
@@ -44,10 +45,23 @@ class OpenAIProvider:
                     "strict": True,
                 }
             }
-        return _post_json(self.endpoint, payload, api_key, self.timeout_seconds)
+        return _post_json(
+            self.endpoint,
+            payload,
+            api_key,
+            self.timeout_seconds,
+            extractor=extract_openai_responses_text,
+        )
 
 
-def _post_json(endpoint: str, payload: dict[str, Any], api_key: str, timeout_seconds: float) -> str:
+def _post_json(
+    endpoint: str,
+    payload: dict[str, Any],
+    api_key: str,
+    timeout_seconds: float,
+    *,
+    extractor: Callable[[dict[str, Any]], str] | None = None,
+) -> str:
     data = json.dumps(payload).encode("utf-8")
     request = urllib.request.Request(
         endpoint,
@@ -64,6 +78,14 @@ def _post_json(endpoint: str, payload: dict[str, Any], api_key: str, timeout_sec
     except urllib.error.URLError as exc:
         raise RuntimeError(f"provider request failed: {exc}") from exc
     decoded = json.loads(raw)
+    if extractor is not None:
+        return extractor(decoded)
+    return extract_openai_responses_text(decoded)
+
+
+def extract_openai_responses_text(decoded: dict[str, Any]) -> str:
+    """Extract model text from an OpenAI Responses-style response."""
+
     text = decoded.get("output_text")
     if isinstance(text, str):
         return text
@@ -81,4 +103,26 @@ def _post_json(endpoint: str, payload: dict[str, Any], api_key: str, timeout_sec
                     chunks.append(str(content_item["text"]))
         if chunks:
             return "\n".join(chunks)
-    return str(raw)
+    return json.dumps(decoded)
+
+
+def extract_openai_chat_completions_text(decoded: dict[str, Any]) -> str:
+    """Extract model text from an OpenAI-compatible chat-completions response."""
+
+    choices = decoded.get("choices")
+    if not isinstance(choices, list):
+        return json.dumps(decoded)
+    chunks: list[str] = []
+    for choice in choices:
+        if not isinstance(choice, dict):
+            continue
+        message = choice.get("message")
+        if isinstance(message, dict) and isinstance(message.get("content"), str):
+            chunks.append(str(message["content"]))
+            continue
+        delta = choice.get("delta")
+        if isinstance(delta, dict) and isinstance(delta.get("content"), str):
+            chunks.append(str(delta["content"]))
+    if chunks:
+        return "\n".join(chunks)
+    return json.dumps(decoded)
