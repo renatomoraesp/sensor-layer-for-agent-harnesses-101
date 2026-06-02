@@ -1,44 +1,81 @@
-# Sensor Layer for Agent Harnesses 101
+# Harness Sensors
 
-Early-stage Python project for exploring how a lightweight sensor layer can observe, structure, and expose signals from agent harnesses.
+Harness Sensors is a minimal, portable sensor layer for coding-agent harnesses.
+It is not a coding agent, an IDE plugin, a benchmark suite, or a CI replacement.
+It provides small inferential feedback controls that inspect evidence from a
+target repository and return structured, repair-oriented feedback before a human
+reviewer has to catch the same issue.
 
-The implementation is intentionally minimal for now. The repository is set up so the real work can start from a clean, typed, tested Python package instead of an empty folder.
+The first-class artifact is the **sensor card**: a readable markdown file with
+YAML frontmatter, evidence requirements, a judgment rubric, and a strict output
+contract. The Python runtime exists to discover cards, collect evidence, render
+provider-neutral prompts, optionally call a provider, and write reports.
 
-## Setup
+## What A Sensor Does
 
-Install dependencies with Poetry:
+A deterministic check can say `pytest passed`. An inferential sensor can say the
+passing tests do not prove the claimed behavior because the critical checkout,
+runtime, handoff, or architecture boundary was never exercised.
+
+Harness Sensors ships six core sensors plus one maturity-level sensor:
+
+- Completion Calibration
+- Feature-State and WIP Boundary
+- Test Adequacy and Behavior
+- Architecture and Invariant Drift
+- Runtime Evidence and Observability
+- Continuity and Clean-Handoff
+- Instruction Ecology, optional
+
+## Quick Start
+
+Install dependencies from a checkout:
 
 ```bash
 poetry install
 ```
 
-Create local environment configuration:
+Inspect a target repository in safe prompt-only mode:
 
 ```bash
-cp .env.example .env
+poetry run python -m harness_sensors doctor --repo examples/python-api-small
+poetry run python -m harness_sensors collect --repo examples/python-api-small
+poetry run python -m harness_sensors render --repo examples/python-api-small --sensor test-adequacy
+poetry run python -m harness_sensors run --repo examples/python-api-small --sensor completion-calibration
 ```
 
-The starter configuration uses:
+Install the minimal harness state surface into another repository:
 
 ```bash
-SENSOR_LAYER_ENV=development
-SENSOR_LAYER_LOG_LEVEL=INFO
+python -m harness_sensors install --repo /path/to/target --profile minimal
 ```
 
-## Checks
+Prompt-only mode is the safe default. It writes prompts under
+`.harness/prompts/` and returns a `WARN` result that explicitly says no model
+judgment was invoked.
+
+## Minimal Example
 
 ```bash
-poetry run pytest
-poetry run ruff check .
-poetry run mypy src tests
+python -m harness_sensors render \
+  --repo /path/to/target \
+  --sensor completion-calibration \
+  --out /path/to/target/.harness/prompts/completion.prompt.md
 ```
 
-Or run the combined target:
+The rendered prompt contains the sensor card, a compact evidence bundle, and the
+`sensor-result.v1` schema. Paste it into a capable model or configure a provider
+adapter when you want automated execution.
 
-```bash
-make check
-```
+## Repository Map
 
-## Status
+- `sensors/`: canonical markdown sensor cards.
+- `src/harness_sensors/`: thin Python runtime.
+- `templates/target-repo/`: copyable harness files for adopting repositories.
+- `docs/`: concepts, adaptation guidance, and integrations.
+- `examples/`: small target repositories and generated reports.
+- `evals/`: seeded failure cases for sensor quality checks.
 
-Research and references are still being gathered. The package currently contains only the initial settings layer and project scaffolding.
+Start with [docs/00-start-here.md](docs/00-start-here.md), then use
+[docs/adaptation/clone-and-port.md](docs/adaptation/clone-and-port.md) when
+copying the harness into another codebase.

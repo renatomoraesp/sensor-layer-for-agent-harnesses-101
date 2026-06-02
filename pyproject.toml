@@ -1,19 +1,25 @@
 [project]
-name = "sensor-layer-for-agent-harnesses-101"
+name = "harness-sensors"
 version = "0.1.0"
-description = "A lightweight Python project for exploring sensor layers around agent harnesses."
+description = "A portable sensor layer for coding-agent harnesses."
 authors = [
     { name = "Renato Pinheiro" }
 ]
 readme = "README.md"
 requires-python = ">=3.11,<4.0"
 dependencies = [
-    "pydantic-settings>=2.7.0,<3.0.0"
+    "pydantic>=2.7.0,<3.0.0"
 ]
 
 [tool.poetry]
 packages = [
-    { include = "sensor_layer_for_agent_harnesses_101", from = "src" }
+    { include = "harness_sensors", from = "src" }
+]
+include = [
+    { path = "src/harness_sensors/schemas/*.json", format = ["sdist", "wheel"] },
+    { path = "sensors/*.md", format = ["sdist", "wheel"] },
+    { path = "templates/target-repo/**/*", format = ["sdist", "wheel"] },
+    { path = "templates/continue/checks/*.md", format = ["sdist", "wheel"] }
 ]
 
 [tool.poetry.group.dev.dependencies]
@@ -35,5 +41,5 @@ strict = true
 warn_unreachable = true
 
 [tool.pytest.ini_options]
-addopts = "--cov=sensor_layer_for_agent_harnesses_101 --cov-report=term-missing"
+addopts = "--cov=harness_sensors --cov-report=term-missing"
 testpaths = ["tests"]

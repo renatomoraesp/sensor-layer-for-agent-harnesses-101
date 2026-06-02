@@ -1,0 +1,25 @@
+{
+  "schema_version": "harness-feature-list.v1",
+  "active_feature": "F001",
+  "features": [
+    {
+      "id": "F001",
+      "title": "Calculator division behavior",
+      "status": "in_progress",
+      "active": true,
+      "acceptance_criteria": [
+        "Division returns a floating-point quotient",
+        "Division by zero raises ValueError",
+        "Behavior is covered by tests"
+      ],
+      "verification": [
+        {
+          "command": "pytest",
+          "status": "not_run",
+          "notes": "Fixture repository keeps checks optional for prompt-only demos"
+        }
+      ],
+      "completion_claim": null
+    }
+  ]
+}

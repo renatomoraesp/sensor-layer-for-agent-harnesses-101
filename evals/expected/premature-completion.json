@@ -1,0 +1,23 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "completion-calibration",
+  "status": "FAIL",
+  "confidence": 0.86,
+  "summary": "The feature is marked complete without sufficient verification evidence.",
+  "findings": [
+    {
+      "severity": "blocker",
+      "claim": "Completion is not justified by the recorded checks.",
+      "evidence": [
+        {
+          "path": "harness/feature_list.json",
+          "lines": null,
+          "detail": "Feature status is done while runtime verification is absent."
+        }
+      ],
+      "repair": "Restore the feature to in_progress or attach runtime and clean-environment verification."
+    }
+  ],
+  "missing_evidence": ["No runtime transcript.", "No clean-environment check."],
+  "next_actions": ["Run the missing verification.", "Re-run completion-calibration."]
+}

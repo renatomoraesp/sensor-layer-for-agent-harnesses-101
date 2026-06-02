@@ -1,0 +1,20 @@
+providers:
+  active: prompt-only
+
+  prompt-only:
+    # Safe default. Renders prompts to disk and does not call a model.
+    model:
+
+  openai:
+    model: gpt-4.1
+    api_key_env: OPENAI_API_KEY
+    endpoint: https://api.openai.com/v1/responses
+
+  anthropic:
+    model: claude-sonnet-4-20250514
+    api_key_env: ANTHROPIC_API_KEY
+    endpoint: https://api.anthropic.com/v1/messages
+
+  local:
+    model: local-model
+    endpoint: http://localhost:11434/v1/chat/completions

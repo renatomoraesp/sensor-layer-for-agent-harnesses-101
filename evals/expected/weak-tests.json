@@ -1,0 +1,23 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "test-adequacy",
+  "status": "FAIL",
+  "confidence": 0.9,
+  "summary": "The tests do not prove the claimed behavior.",
+  "findings": [
+    {
+      "severity": "blocker",
+      "claim": "Rendering-only tests could pass while the workflow is broken.",
+      "evidence": [
+        {
+          "path": "tests/test_checkout.py",
+          "lines": "12-44",
+          "detail": "No cart-to-payment transition is exercised."
+        }
+      ],
+      "repair": "Add a behavior-level checkout test."
+    }
+  ],
+  "missing_evidence": ["No integration or E2E checkout test."],
+  "next_actions": ["Add behavior coverage.", "Run tests.", "Re-run test-adequacy."]
+}

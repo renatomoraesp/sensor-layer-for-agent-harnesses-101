@@ -1,0 +1,37 @@
+{
+  "schema_version": "evidence-bundle.v1",
+  "repo_path": "evals/cases/dirty-handoff",
+  "collected_at": "2026-06-01T00:00:00Z",
+  "task": "Pause work on cart checkout.",
+  "git": {
+    "status_short": [" M src/cart.py", "?? scratch-output.txt"],
+    "changed_files": ["src/cart.py", "scratch-output.txt"]
+  },
+  "test_results": {
+    "test_commands": [
+      {
+        "command": "pytest",
+        "status": "failed",
+        "exit_code": 1
+      }
+    ]
+  },
+  "docs": {},
+  "feature_state": {
+    "progress": "cart mostly done",
+    "decisions": "",
+    "feature_status": "in_progress"
+  },
+  "runtime": {},
+  "workspace": {
+    "dirty": true,
+    "todo_markers": [
+      {
+        "path": "src/cart.py",
+        "line": 42,
+        "text": "TODO temporary hack"
+      }
+    ],
+    "temporary_files": ["scratch-output.txt"]
+  }
+}

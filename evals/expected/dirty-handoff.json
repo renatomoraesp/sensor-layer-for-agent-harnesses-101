@@ -1,0 +1,23 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "clean-handoff",
+  "status": "FAIL",
+  "confidence": 0.89,
+  "summary": "The handoff is not resumable from repository files alone.",
+  "findings": [
+    {
+      "severity": "error",
+      "claim": "Progress notes do not record the failing command or next action.",
+      "evidence": [
+        {
+          "path": "harness/progress.md",
+          "lines": null,
+          "detail": "Says 'mostly done' without verification details."
+        }
+      ],
+      "repair": "Record the failing command, suspected cause, current state, and next action."
+    }
+  ],
+  "missing_evidence": ["Last failing command output is absent."],
+  "next_actions": ["Update progress.md.", "Classify TODOs.", "Re-run clean-handoff."]
+}

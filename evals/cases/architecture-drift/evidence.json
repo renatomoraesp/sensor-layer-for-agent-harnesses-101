@@ -1,0 +1,26 @@
+{
+  "schema_version": "evidence-bundle.v1",
+  "repo_path": "evals/cases/architecture-drift",
+  "collected_at": "2026-06-01T00:00:00Z",
+  "task": "Create order from API and worker paths.",
+  "git": {
+    "changed_files": ["src/domain/orders/create_order.py"],
+    "diff": "src/domain/orders/create_order.py imports fastapi.Request and reads headers directly."
+  },
+  "test_results": {
+    "commands_were_run": false
+  },
+  "docs": {
+    "documents": [
+      {
+        "path": "docs/architecture.md",
+        "text": "Domain services must not depend on transport-layer request objects."
+      }
+    ]
+  },
+  "feature_state": {},
+  "runtime": {},
+  "workspace": {
+    "dirty": true
+  }
+}

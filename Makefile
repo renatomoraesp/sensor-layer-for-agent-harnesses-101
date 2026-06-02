@@ -1,18 +1,27 @@
-.PHONY: install test lint format typecheck check
+.PHONY: install format lint test typecheck check doctor render-example run-example
 
 install:
 	poetry install
 
-test:
-	poetry run pytest
+format:
+	poetry run ruff format .
 
 lint:
 	poetry run ruff check .
 
-format:
-	poetry run ruff format .
-
 typecheck:
 	poetry run mypy src tests
 
+test:
+	poetry run pytest
+
 check: lint typecheck test
+
+doctor:
+	poetry run python -m harness_sensors doctor --repo examples/python-api-small
+
+render-example:
+	poetry run python -m harness_sensors render --repo examples/python-api-small --sensor completion-calibration
+
+run-example:
+	poetry run python -m harness_sensors run --repo examples/python-api-small --sensor completion-calibration

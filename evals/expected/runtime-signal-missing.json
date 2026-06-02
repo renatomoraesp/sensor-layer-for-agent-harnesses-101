@@ -1,0 +1,23 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "runtime-observability",
+  "status": "FAIL",
+  "confidence": 0.82,
+  "summary": "Runtime evidence does not show the claimed export service invocation.",
+  "findings": [
+    {
+      "severity": "blocker",
+      "claim": "The UI action did not reach the export service.",
+      "evidence": [
+        {
+          "path": ".harness/logs/export.log",
+          "lines": null,
+          "detail": "Renderer click appears, but no service invocation is logged."
+        }
+      ],
+      "repair": "Inspect the renderer/preload integration and re-run the E2E export flow."
+    }
+  ],
+  "missing_evidence": ["No successful export transcript."],
+  "next_actions": ["Verify preload exposure path.", "Capture a new runtime transcript."]
+}

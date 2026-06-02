@@ -1,0 +1,15 @@
+target:
+  harness_dir: harness
+  docs_paths:
+    - AGENTS.md
+    - docs
+    - harness
+  test_commands:
+    - pytest
+  build_commands: []
+  lint_commands: []
+  log_paths:
+    - .harness/logs
+  report_dir: .harness/reports
+  prompt_dir: .harness/prompts
+  evidence_dir: .harness/evidence

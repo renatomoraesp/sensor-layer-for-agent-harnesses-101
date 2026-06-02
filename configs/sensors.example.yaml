@@ -1,0 +1,22 @@
+sensors:
+  completion-calibration:
+    enabled: true
+    triggers: [before_done, pre_pr]
+  feature-wip-boundary:
+    enabled: true
+    triggers: [after_diff, pre_pr]
+  test-adequacy:
+    enabled: true
+    triggers: [after_tests, pre_pr]
+  architecture-drift:
+    enabled: true
+    triggers: [after_diff, pre_pr]
+  runtime-observability:
+    enabled: true
+    triggers: [after_runtime_check, before_done]
+  clean-handoff:
+    enabled: true
+    triggers: [session_end]
+  instruction-ecology:
+    enabled: false
+    triggers: [docs_changed, scheduled]

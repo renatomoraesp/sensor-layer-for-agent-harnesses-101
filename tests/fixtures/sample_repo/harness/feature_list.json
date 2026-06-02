@@ -1,0 +1,14 @@
+{
+  "schema_version": "harness-feature-list.v1",
+  "active_feature": "F001",
+  "features": [
+    {
+      "id": "F001",
+      "title": "Sample feature",
+      "status": "in_progress",
+      "active": true,
+      "acceptance_criteria": ["Behavior is tested"],
+      "verification": []
+    }
+  ]
+}

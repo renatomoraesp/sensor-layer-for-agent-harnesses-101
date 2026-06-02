@@ -1,0 +1,19 @@
+{
+  "schema_version": "harness-feature-list.v1",
+  "active_feature": "F010",
+  "features": [
+    {
+      "id": "F010",
+      "title": "Expose order summary endpoint",
+      "status": "in_progress",
+      "active": true,
+      "acceptance_criteria": [
+        "Route delegates to service layer",
+        "Service returns summary for existing order",
+        "Runtime transcript proves endpoint invocation"
+      ],
+      "verification": [],
+      "completion_claim": null
+    }
+  ]
+}

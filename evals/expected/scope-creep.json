@@ -1,0 +1,23 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "feature-wip-boundary",
+  "status": "FAIL",
+  "confidence": 0.88,
+  "summary": "The diff includes work outside the active feature boundary.",
+  "findings": [
+    {
+      "severity": "error",
+      "claim": "Checkout scaffolding is unrelated to the active password reset feature.",
+      "evidence": [
+        {
+          "path": "src/checkout/models.py",
+          "lines": null,
+          "detail": "Changed file is outside the sprint contract."
+        }
+      ],
+      "repair": "Revert or split checkout scaffolding into a separate feature."
+    }
+  ],
+  "missing_evidence": [],
+  "next_actions": ["Reduce the diff to the active feature.", "Re-run feature-wip-boundary."]
+}

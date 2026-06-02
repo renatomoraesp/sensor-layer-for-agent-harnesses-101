@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-bundle.v1",
+  "title": "Harness Evidence Bundle",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "repo_path",
+    "collected_at",
+    "git",
+    "test_results",
+    "docs",
+    "feature_state",
+    "runtime",
+    "workspace"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "evidence-bundle.v1"
+    },
+    "repo_path": {
+      "type": "string"
+    },
+    "collected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "task": {
+      "type": ["string", "null"]
+    },
+    "git": {
+      "type": "object"
+    },
+    "test_results": {
+      "type": "object"
+    },
+    "docs": {
+      "type": "object"
+    },
+    "feature_state": {
+      "type": "object"
+    },
+    "runtime": {
+      "type": "object"
+    },
+    "workspace": {
+      "type": "object"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}

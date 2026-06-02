@@ -1,0 +1,22 @@
+name: Harness Sensors
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  prompt-only-sensors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install harness sensors
+        run: pip install harness-sensors
+      - name: Render completion sensor
+        run: |
+          python -m harness_sensors render --repo . --sensor completion-calibration
+      - name: Collect evidence
+        run: |
+          python -m harness_sensors collect --repo .

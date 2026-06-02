@@ -1,0 +1,44 @@
+{
+  "schema_version": "evidence-bundle.v1",
+  "repo_path": "evals/cases/premature-completion",
+  "collected_at": "2026-06-01T00:00:00Z",
+  "task": "Complete the password reset flow.",
+  "git": {
+    "changed_files": ["src/auth/reset_password.py", "tests/test_reset_password.py"],
+    "diff": "Feature status changed to done; implementation adds token helper only."
+  },
+  "test_results": {
+    "test_commands": [
+      {
+        "command": "pytest tests/test_reset_password.py",
+        "status": "passed",
+        "exit_code": 0
+      }
+    ],
+    "commands_were_run": true
+  },
+  "docs": {},
+  "feature_state": {
+    "active_feature": "F03",
+    "files": {
+      "feature_list.json": {
+        "json": {
+          "features": [
+            {
+              "id": "F03",
+              "status": "done",
+              "acceptance_criteria": ["E2E reset flow works", "Email template loads"],
+              "verification": ["unit test only"]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "runtime": {
+    "logs": []
+  },
+  "workspace": {
+    "dirty": true
+  }
+}

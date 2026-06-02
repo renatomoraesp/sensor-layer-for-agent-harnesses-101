@@ -1,0 +1,20 @@
+{
+  "schema_version": "harness-feature-list.v1",
+  "active_feature": "F001",
+  "features": [
+    {
+      "id": "F001",
+      "title": "Adopt harness sensors",
+      "status": "in_progress",
+      "active": true,
+      "acceptance_criteria": [
+        "Harness state files exist and are maintained",
+        "Prompt-only sensor rendering works",
+        "Completion claims include verification evidence"
+      ],
+      "verification": [],
+      "completion_claim": null,
+      "notes": "Replace this starter feature with real project work."
+    }
+  ]
+}

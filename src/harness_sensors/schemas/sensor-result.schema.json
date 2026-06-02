@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sensor-result.v1",
+  "title": "Harness Sensor Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sensor_id",
+    "status",
+    "confidence",
+    "summary",
+    "findings",
+    "missing_evidence",
+    "next_actions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "sensor-result.v1",
+      "default": "sensor-result.v1"
+    },
+    "sensor_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "status": {
+      "enum": ["PASS", "WARN", "FAIL", "ERROR"]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "missing_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["severity", "claim", "evidence", "repair"],
+      "properties": {
+        "severity": {
+          "enum": ["info", "warning", "error", "blocker"]
+        },
+        "claim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence_reference"
+          }
+        },
+        "repair": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "evidence_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["detail"],
+      "properties": {
+        "path": {
+          "type": ["string", "null"]
+        },
+        "lines": {
+          "type": ["string", "null"]
+        },
+        "detail": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

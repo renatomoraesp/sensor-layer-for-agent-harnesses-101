@@ -1,0 +1,28 @@
+{
+  "schema_version": "evidence-bundle.v1",
+  "repo_path": "evals/cases/weak-tests",
+  "collected_at": "2026-06-01T00:00:00Z",
+  "task": "Complete checkout from cart to payment session and persisted order.",
+  "git": {
+    "changed_files": ["src/checkout/view.tsx", "tests/test_checkout.py"],
+    "diff": "Production code submits checkout; tests only render the checkout view."
+  },
+  "test_results": {
+    "test_commands": [
+      {
+        "command": "pytest tests/test_checkout.py",
+        "status": "passed",
+        "exit_code": 0
+      }
+    ],
+    "changed_tests": "asserts checkout component renders"
+  },
+  "docs": {},
+  "feature_state": {
+    "acceptance_criteria": ["cart-to-payment transition", "payment-session creation", "persisted order"]
+  },
+  "runtime": {},
+  "workspace": {
+    "dirty": true
+  }
+}

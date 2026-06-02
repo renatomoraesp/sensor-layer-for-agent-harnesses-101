@@ -1,0 +1,23 @@
+{
+  "schema_version": "sensor-result.v1",
+  "sensor_id": "architecture-drift",
+  "status": "FAIL",
+  "confidence": 0.84,
+  "summary": "The change violates the domain/transport boundary.",
+  "findings": [
+    {
+      "severity": "error",
+      "claim": "Domain service imports a transport-layer request object.",
+      "evidence": [
+        {
+          "path": "src/domain/orders/create_order.py",
+          "lines": "3",
+          "detail": "Imports FastAPI Request."
+        }
+      ],
+      "repair": "Extract request fields at the API boundary and pass a domain command object."
+    }
+  ],
+  "missing_evidence": [],
+  "next_actions": ["Move transport parsing to the route layer.", "Re-run architecture-drift."]
+}
